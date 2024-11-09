@@ -43,7 +43,7 @@ Step 2: Map Cells Between Dimensionality Reductions
 Use the BatchLinkPlot function to map cells between the two Seurat objects. Customize the color palette, cluster order, and output format as needed.
 ```r
 # choose cells for plot
-seurat.obj1@meta.data$cell4plot = seurat.obj1@meta.data$cluster
+seurat.obj1@meta.data$cell4link = seurat.obj1@meta.data$cluster
 
 # Map cells between the two Seurat objects (from seurat.obj1 to seurat.obj2)
 mapped_plots <- BatchLinkPlot(
