@@ -54,6 +54,17 @@ mapped_plots <- BatchLinkPlot(
 ```
 Step 3: Plot Saving
 The BatchLinkPlot function will save the generated plots to your working directory in the specified format (e.g., PDF). You can also access individual plots in the mapped_plots list for further customization or visualization.
+```r
+mapped_plots
+# $`Cluster1`
+
+# $`Cluster2`
+
+# $`Cluster3`
+
+class(mapped_plots$`Cluster1`)
+# [1] "gg"     "ggplot"
+```
 
 ## Parameters
  - seurat.obj1: First Seurat object, typically with an initial dimensionality reduction.
