@@ -23,6 +23,8 @@ devtools::install_github("mushan-guan/cellLink")
 ```
 
 ## Usage
+### Dependency
+The cellLink package depends on the Seurat, ggplot2, and dplyr packages.
 ### Loading the Package
 Load the cellLink package into your R session:
 ```r
@@ -38,7 +40,10 @@ Step 1: Prepare Seurat Objects
 Step 2: Map Cells Between Dimensionality Reductions
 Use the BatchLinkPlot function to map cells between the two Seurat objects. Customize the color palette, cluster order, and output format as needed.
 ```r
-# Map cells between the two Seurat objects
+# choose cells for plot
+seurat.obj1@meta.data$cell4plot = seurat.obj1@meta.data$cluster
+
+# Map cells between the two Seurat objects (from seurat.obj1 to seurat.obj2)
 mapped_plots <- BatchLinkPlot(
   seurat.obj1 = seurat.obj1,
   seurat.obj2 = seurat.obj2,
