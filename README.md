@@ -47,8 +47,12 @@ seurat.obj1@meta.data$cell4plot = seurat.obj1@meta.data$cluster
 mapped_plots <- BatchLinkPlot(
   seurat.obj1 = seurat.obj1,
   seurat.obj2 = seurat.obj2,
-  cell4plot.order = c("Cluster1", "Cluster2", "Cluster3"),  # Specify the order of clusters
-  cell4plot.color = c("#BC3C29", "#A1433D", "#864B51"),     # Customize cluster colors
+  cell4link.order = c("Cluster1", "Cluster2", "Cluster3"),  # Specify the order of clusters
+  cell4link.color = c("#BC3C29", "#A1433D", "#864B51"),     # Customize the colors of clusters for linking
+  cellnot4link.color = "#DCDCDC",                           # Customize the colors of other cells (not for linking)
+  line.type = "solid",                                      # Specify the type of lines for linking cells
+  line.color = '#A9A9A9',                                   # Specify the color of lines for linking cells
+  line.alpha = 0.1,                                         # Specify the transparency of lines for linking cells
   save.format = "pdf"                                       # Save plots as PDF files
 )
 ```
@@ -69,13 +73,17 @@ class(mapped_plots$`Cluster1`)
 ## Parameters
  - seurat.obj1: First Seurat object, typically with an initial dimensionality reduction.
  - seurat.obj2: Second Seurat object with an alternative dimensionality reduction.
- - cell4plot.order: Order of clusters to be displayed in the plot.
- - cell4plot.color: Color palette for clusters, specified as a vector of color codes.
+ - cell4link.order: Order of clusters to be displayed in the plot.
+ - cell4link.color: Color palette for clusters, specified as a vector of color codes.
+ - cellnot4link.color: Color of other cells.
+ - line.type: Type of lines for linking cells (refer to geom_line in ggplot2).
+ - line.color: Color of lines for linking cells (refer to geom_line in ggplot2).
+ - line.alpha: Transparency of lines for linking cells (refer to geom_line in ggplot2).
  - save.format: Format for saving plots (e.g., "pdf", "png", "jpeg", etc.).
 
 ## Notes
  - Ensure the cells used for plotting are in the intersection of both Seurat objects, with consistent barcodes across objects.
- - Adjust cell4plot.order and cell4plot.color to customize the plot order and color scheme.
+ - Adjust cell4link.order and cell4link.color to customize the plot order and color scheme.
 
 # License
 This package is licensed under the MIT License. See the LICENSE file for more details.
