@@ -7,8 +7,8 @@
 BatchLinkPlot(
   seurat.obj1,
   seurat.obj2,
-  cell4plot.order = NULL,
-  cell4plot.color = c("#BC3C29", "#A1433D", "#864B51", "#6B5365", "#505A79", "#35628D",
+  cell4link.order = NULL,
+  cell4link.color = c("#BC3C29", "#A1433D", "#864B51", "#6B5365", "#505A79", "#35628D",
     "#1A6AA1", "#0072B5", "#2075A0", "#40788C", "#607B78", "#807E63", "#A0814F",
     "#C0833B", "#E18727", "#C5862C", "#A98632", "#8E8637", "#72853D", "#578542",
     "#3B8548", "#20854E", "#2C825C", "#39806A", "#457E78", "#527C86", "#5E7A94",
@@ -17,6 +17,10 @@ BatchLinkPlot(
     "#EAD295", "#FFDC91", "#FCC791", "#FAB292", "#F79E93", 
      "#F58994", "#F27595",
     "#F06096", "#EE4C97"),
+  cellnot4link.color = "#DCDCDC",
+  line.type = "solid",
+  line.color = "#A9A9A9",
+  line.alpha = 0.1,
   save.format = "pdf"
 )
 }
@@ -25,9 +29,17 @@ BatchLinkPlot(
 
 \item{seurat.obj2}{the second Seurat object with completed dimensionality reduction analysis}
 
-\item{cell4plot.order}{specify the order of clusters for cell4plot}
+\item{cell4link.order}{specify the order of clusters for cell4link}
 
-\item{cell4plot.color}{specify the color of clusters for cell4plot}
+\item{cell4link.color}{specify the color of clusters for cell4link}
+
+\item{cellnot4link.color}{specify the color of other cells}
+
+\item{line.type}{specify the type of lines for linking cells (refer to geom_line in ggplot2)}
+
+\item{line.color}{specify the color of lines for linking cells (refer to geom_line in ggplot2)}
+
+\item{line.alpha}{specify the transparency of lines for linking cells (refer to geom_line in ggplot2)}
 
 \item{save.format}{specify the format for saving the plot}
 }
@@ -38,11 +50,11 @@ return a list of plots for all clusters
 Title
 }
 \examples{
-brain.harmony$cell4plot = brain.harmony$orig.ident
+brain.harmony$cell4link = brain.harmony$orig.ident
 BatchLinkPlot(
     seurat.obj1 = brain.harmony,
     seurat.obj2 = brain.cca,
-    cell4plot.order = c("cortex", "hippocampus"),
+    cell4link.order = c("cortex", "hippocampus"),
     save.format = "png"
     )
 
