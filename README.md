@@ -37,7 +37,7 @@ This example demonstrates how to use the BatchLinkPlot function to map cells bet
 
 Step 1: Prepare Seurat Objects
 ```r
-# Assuming you have two Seurat objects (e.g., seurat.obj1 and seurat.obj2)
+# Suppose you have two Seurat objects that contain common target cells and have undergone dimensional reduction. (e.g., seurat.obj1 and seurat.obj2)
 ```
 Step 2: Map Cells Between Dimensionality Reductions
 Use the BatchLinkPlot function to map cells between the two Seurat objects. Customize the color palette, cluster order, and output format as needed.
