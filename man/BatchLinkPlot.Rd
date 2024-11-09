@@ -21,7 +21,10 @@ BatchLinkPlot(
   line.type = "solid",
   line.color = "#A9A9A9",
   line.alpha = 0.1,
-  save.format = "pdf"
+  save.format = "pdf",
+  DR.method = "umap",
+  dim1 = NULL,
+  dim2 = NULL
 )
 }
 \arguments{
@@ -42,6 +45,12 @@ BatchLinkPlot(
 \item{line.alpha}{specify the transparency of lines for linking cells (refer to geom_line in ggplot2)}
 
 \item{save.format}{specify the format for saving the plot}
+
+\item{DR.method}{specify a common dimensional reduction method for two Seurat objects (e.g., umap, tsne, pca)}
+
+\item{dim1}{the name of Dimension 1 in the dimensional reduction method usually does not need to be specified}
+
+\item{dim2}{the name of Dimension 2 in the dimensional reduction method usually does not need to be specified}
 }
 \value{
 return a list of plots for all clusters

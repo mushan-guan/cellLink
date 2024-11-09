@@ -3,8 +3,8 @@
 #' @importFrom dplyr %>% filter
 #' @importFrom Seurat FetchData
 #'
-#' @param seurat.obj1 the first Seurat object with completed dimensionality reduction analysis
-#' @param seurat.obj2 the second Seurat object with completed dimensionality reduction analysis
+#' @param seurat.obj1  the first Seurat object with completed dimensionality reduction analysis
+#' @param seurat.obj2  the second Seurat object with completed dimensionality reduction analysis
 #' @param cell4link.order  specify the order of clusters for cell4link
 #' @param cell4link.color  specify the color of clusters for cell4link
 #' @param cellnot4link.color  specify the color of other cells
@@ -12,6 +12,9 @@
 #' @param line.color  specify the color of lines for linking cells (refer to geom_line in ggplot2)
 #' @param line.alpha  specify the transparency of lines for linking cells (refer to geom_line in ggplot2)
 #' @param save.format  specify the format for saving the plot
+#' @param DR.method  specify a common dimensional reduction method for two Seurat objects (e.g., umap, tsne, pca)
+#' @param dim1  the name of Dimension 1 in the dimensional reduction method usually does not need to be specified
+#' @param dim2  the name of Dimension 2 in the dimensional reduction method usually does not need to be specified
 #'
 #' @return return a list of plots for all clusters
 #'
@@ -35,10 +38,32 @@ BatchLinkPlot <- function(seurat.obj1,
                                               "#7580AF", "#7485AF", "#728AAE", "#718FAE", "#7094AD", "#6F99AD", "#83A2A9", "#98ACA5", "#ACB5A1", "#C1BF9D",
                                               "#D5C899", "#EAD295", "#FFDC91", "#FCC791", "#FAB292", "#F79E93", "#F58994", "#F27595", "#F06096", "#EE4C97"),
                           cellnot4link.color = "#DCDCDC",
-			  line.type = "solid",
+                          line.type = "solid",
                           line.color = '#A9A9A9',
                           line.alpha = 0.1,
-			  save.format = "pdf") {
+                          save.format = "pdf",
+                          DR.method = "umap",
+                          dim1 = NULL,
+                          dim2 = NULL) {
+
+  # Define column names based on DR.method
+  if (DR.method == "umap") {
+    dim1 <- "UMAP_1"
+    dim2 <- "UMAP_2"
+  } else if (DR.method == "pca") {
+    dim1 <- "PC_1"
+    dim2 <- "PC_2"
+  } else if (DR.method == "tsne") {
+    dim1 <- "tSNE_1"
+    dim2 <- "tSNE_2"
+  } else {
+    if (is.null(dim1) || is.null(dim2)) {
+      embeddings <- Embeddings(seurat.obj1[[DR.method]])
+      dim1 <- colnames(embeddings)[1]
+      dim2 <- colnames(embeddings)[2]
+      message("Using columns ", dim1, " and ", dim2, " as dimensions for ", DR.method)
+    }
+  }
 
   # Check if the number of clusters in cell4link exceeds 50
   num_clusters <- length(unique(seurat.obj1$cell4link))
@@ -65,13 +90,13 @@ BatchLinkPlot <- function(seurat.obj1,
     seurat.obj2@meta.data$projection.index <- "NO"
     seurat.obj2@meta.data$projection.index[colnames(seurat.obj2) %in% colnames(projection.ref)] <- colnames(projection.ref)
 
-    seurat.obj2.projection <- FetchData(seurat.obj2, vars = c("UMAP_1", "UMAP_2", "projection.index"))
-    seurat.obj2.projection$UMAP_1 <- (seurat.obj2.projection$UMAP_1 + 30)
+    seurat.obj2.projection <- FetchData(seurat.obj2, vars = c(dim1, dim2, "projection.index"))
+    seurat.obj2.projection[[dim1]] <- (seurat.obj2.projection[[dim1]] + 30)
 
     seurat.obj2.projection.long <- data.frame(
       Name = row.names(seurat.obj2.projection),
-      UMAP_1 = seurat.obj2.projection$UMAP_1,
-      UMAP_2 = seurat.obj2.projection$UMAP_2,
+      Dim1 = seurat.obj2.projection[[dim1]],
+      Dim2 = seurat.obj2.projection[[dim2]],
       projection.index = seurat.obj2.projection$projection.index,
       method = 'seurat.obj2.method'
     )
@@ -79,11 +104,11 @@ BatchLinkPlot <- function(seurat.obj1,
     seurat.obj1@meta.data$projection.index <- "NO"
     seurat.obj1@meta.data$projection.index[seurat.obj1$cell4link %in% cluster.i] <- colnames(projection.ref)
 
-    seurat.obj1.projection <- FetchData(seurat.obj1, vars = c("UMAP_1", "UMAP_2", "projection.index"))
+    seurat.obj1.projection <- FetchData(seurat.obj1, vars = c(dim1, dim2, "projection.index"))
     seurat.obj1.projection.long <- data.frame(
       Name = row.names(seurat.obj1.projection),
-      UMAP_1 = seurat.obj1.projection$UMAP_1,
-      UMAP_2 = seurat.obj1.projection$UMAP_2,
+      Dim1 = seurat.obj1.projection[[dim1]],
+      Dim2 = seurat.obj1.projection[[dim2]],
       projection.index = seurat.obj1.projection$projection.index,
       method = 'seurat.obj1.method'
     )
@@ -96,13 +121,13 @@ BatchLinkPlot <- function(seurat.obj1,
 
     # Plot
     plot <- ggplot() +
-      geom_point(data = projection.long, aes(x = UMAP_1, y = UMAP_2), color = cellnot4link.color) +
-      geom_point(data = projection.long.yes.seurat.obj1.method, aes(x = UMAP_1, y = UMAP_2),
+      geom_point(data = projection.long, aes(x = Dim1, y = Dim2), color = cellnot4link.color) +
+      geom_point(data = projection.long.yes.seurat.obj1.method, aes(x = Dim1, y = Dim2),
                  color = cell4link.color[which(cell4link.order == cluster.i)], shape = 19, size = 3) +
-      geom_point(data = projection.long.yes.seurat.obj2.method, aes(x = UMAP_1, y = UMAP_2, color = method),
+      geom_point(data = projection.long.yes.seurat.obj2.method, aes(x = Dim1, y = Dim2, color = method),
                  fill = cellnot4link.color, shape = 21, size = 3, alpha = 1, stroke = 0.5) +
       scale_color_manual(values = c(cell4link.color[which(cell4link.order == cluster.i)], cellnot4link.color)) +
-      geom_line(data = projection.long.yes, aes(x = UMAP_1, y = UMAP_2, group = Name),
+      geom_line(data = projection.long.yes, aes(x = Dim1, y = Dim2, group = Name),
                 linetype = line.type, color = line.color, alpha = line.alpha) +
       theme_minimal() +
       theme(axis.title = element_blank(),
