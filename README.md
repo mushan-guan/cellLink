@@ -98,5 +98,9 @@ The cellLink package relies on the following packages for data manipulation and 
  - dplyr for data manipulation.
  - Special thanks to the contributors and users who provided valuable feedback to improve the package.
 
+# Citation
+> Qibiao Guan (2024). *cellLink: Map cells between various dimensionality reduction plots.*  <https://github.com/mushan-guan/cellLink>.
+
+
 # Contact
 For help, please contact qibiaoguan@163.com.
