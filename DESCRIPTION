@@ -1,0 +1,23 @@
+Package: cellLink
+Title: Map cells between dimensionality reduction plots
+Version: 0.0.1
+Authors@R: 
+    person("Qibiao", "Guan", email = "qibiaoguan@163.com", role = c("aut", "cre"), comment = c(ORCID = "0009-0007-4520-7987"))
+Description: When processing Seurat objects, a group of cells can yield multiple dimensionality reduction results. 
+    While these alternative results can be retained for specific analyses, it is not feasible to display multiple 
+    clustering outcomes on a single plot, nor is it convenient to examine a cell's position across different 
+    dimensionality reductions. CellLink package provides a straightforward visualization method, allowing specified 
+    cells (which can be sampled based on information such as orig.ident or seurat_clusters in meta.data) to be 
+    mapped between different dimensionality reduction results and connected with lines.
+    It is essential to ensure that the cells used for plotting belong to the intersection of these dimensionality reduction results, 
+    meaning the barcodes must be consistent.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+Imports:
+    ggplot2,
+    dplyr,
+    Seurat
+Depends:
+    R (>= 4.1)
