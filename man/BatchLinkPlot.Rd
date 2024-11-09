@@ -45,4 +45,5 @@ BatchLinkPlot(
     cell4plot.order = c("cortex", "hippocampus"),
     save.format = "png"
     )
+
 }

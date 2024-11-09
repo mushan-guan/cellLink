@@ -19,6 +19,8 @@
 #'     cell4plot.order = c("cortex", "hippocampus"),
 #'     save.format = "png"
 #'     )
+#'
+#' @export
 
 BatchLinkPlot <- function(seurat.obj1,
                           seurat.obj2,
