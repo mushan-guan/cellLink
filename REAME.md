@@ -4,6 +4,8 @@ When analyzing single-cell transcriptomics data, we often perform various analys
 
 ***CellLink*** is a lightweight R package designed to help project shared cells (target cell groups) across different dimensional reduction results, providing a function for batch visualization. It identifies target cell groups in various dimensional reduction results and connects them with lines to facilitate comparison.
 
+To compare the similarity of dimensionality reduction results obtained from different analyses for target cells, the cellLink package integrates ***Procrustes analysis**** with a single command. An M2 statistic closer to 0 indicates greater similarity between the dimensionality reduction results for the target cells, indirectly suggesting lower potential heterogeneity in the target cells (maintaining high consistency across various dimensionality reduction results).
+
 ## Installation
 
 To install the development version of `cellLink` from GitHub, you can use the following commands:
@@ -18,7 +20,15 @@ devtools::install_github("mushan-guan/cellLink")
 
 ## Usage
 ### Dependency
-The cellLink package depends on the Seurat, ggplot2, and dplyr packages.
+The cellLink package depends on the Seurat, ggplot2, vegan, patchwork and dplyr packages.
+```r
+library(vegan)
+library(gplot2)
+library(Seurat)
+library(dplyr)
+library(patchwork)
+```
+
 ### Loading the Package
 Load the cellLink package into your R session:
 ```r
