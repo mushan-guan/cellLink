@@ -98,6 +98,9 @@ class(mapped_plots$`level1`)
  - Ensure the cells used for plotting are in the intersection of both Seurat objects, with consistent barcodes across objects.
  - Adjust cell4link.order and cell4link.color to customize the plot order and color scheme.
 
+## Procrustes Analysis
+Procrustes analysis is a statistical technique used to align and compare configurations by minimizing positional, scaling, and rotational differences. It finds applications across various fields, including environmetrics, phylogenetics, psychometrics, and spatial analysis, where it helps assess structural similarity between complex datasets.
+
 ## ***OverallProcrustesPlot*** function
 ### Features
 - Map cells between various dimensionality reduction plots (e.g., UMAP, t-SNE).
@@ -156,7 +159,8 @@ This package is licensed under the MIT License. See the LICENSE file for more de
 The cellLink package relies on the following packages for data manipulation and visualization:
 
  - Seurat for handling single-cell data.
- - ggplot2 for plotting and visualizations.
+ - vegan for Procrustes analysis.
+ - ggplot2 and patchwork for plotting and visualizations.
  - dplyr for data manipulation.
  - Special thanks to the contributors and users who provided valuable feedback to improve the package.
 
@@ -165,4 +169,11 @@ The cellLink package relies on the following packages for data manipulation and 
 
 
 # Contact
-For help, please contact qibiaoguan@163.com.
+For any questions or assistance, please contact me!
+
+GUAN, Qibiao
+INSTITUTE OF ZOOLOGY,  Chinese Academy of Sciences
+INSTITUTE FOR STEM CELL AND REGENERATION,  Chinese Academy of Sciences
+Address: 3 Da Tun Road, Chaoyang District, Beijing 100101, P.R.China
+
+Email: qibiaoguan@ioz.ac.cn
