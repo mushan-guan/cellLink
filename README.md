@@ -37,13 +37,13 @@ This example demonstrates how to use the BatchLinkPlot function to map cells bet
 
 Step 1: Prepare Seurat Objects
 ```r
-# Assuming you have two Seurat objects (e.g., seurat.obj1 and seurat.obj2)
+# Suppose you have two Seurat objects that contain common target cells and have undergone dimensional reduction. (e.g., seurat.obj1 and seurat.obj2)
 ```
 Step 2: Map Cells Between Dimensionality Reductions
 Use the BatchLinkPlot function to map cells between the two Seurat objects. Customize the color palette, cluster order, and output format as needed.
 ```r
 # choose cells for plot
-seurat.obj1@meta.data$cell4plot = seurat.obj1@meta.data$cluster
+seurat.obj1@meta.data$cell4link = seurat.obj1@meta.data$cluster
 
 # Map cells between the two Seurat objects (from seurat.obj1 to seurat.obj2)
 mapped_plots <- BatchLinkPlot(
@@ -97,6 +97,10 @@ The cellLink package relies on the following packages for data manipulation and 
  - ggplot2 for plotting and visualizations.
  - dplyr for data manipulation.
  - Special thanks to the contributors and users who provided valuable feedback to improve the package.
+
+# Citation
+> Qibiao Guan (2024). *cellLink: Map cells between various dimensionality reduction plots.*  <https://github.com/mushan-guan/cellLink>.
+
 
 # Contact
 For help, please contact qibiaoguan@163.com.
