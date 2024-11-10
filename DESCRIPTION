@@ -1,6 +1,6 @@
 Package: cellLink
 Title: Map cells between dimensionality reduction plots
-Version: 0.0.1
+Version: 0.0.2
 Authors@R: 
     person("Qibiao", "Guan", email = "qibiaoguan@163.com", role = c("aut", "cre"), comment = c(ORCID = "0009-0007-4520-7987"))
 Description: When processing Seurat objects, a group of cells can yield multiple dimensionality reduction results. 
@@ -18,6 +18,8 @@ RoxygenNote: 7.2.3
 Imports:
     ggplot2,
     dplyr,
-    Seurat
+    Seurat,
+    patchwork,
+    vegan
 Depends:
     R (>= 4.1)
