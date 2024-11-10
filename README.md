@@ -4,14 +4,6 @@ When analyzing single-cell transcriptomics data, we often perform various analys
 
 ***CellLink*** is a lightweight R package designed to help project shared cells (target cell groups) across different dimensional reduction results, providing a function for batch visualization. It identifies target cell groups in various dimensional reduction results and connects them with lines to facilitate comparison.
 
-## Features
-
-- Map cells between various dimensionality reduction plots (e.g., UMAP, t-SNE).
-- Visually track specific cells across different analysis results.
-- Specify cells for mapping based on metadata (e.g., `orig.ident` or `seurat_clusters`).
-- Customizable color and order of cell clusters in plots.
-- Save plots in various formats, including PDF, PNG, JPEG, and more.
-
 ## Installation
 
 To install the development version of `cellLink` from GitHub, you can use the following commands:
@@ -32,6 +24,15 @@ Load the cellLink package into your R session:
 ```r
 library(cellLink)
 ```
+
+## ***BatchLinkPlot*** function
+### Features
+- Map cells between various dimensionality reduction plots (e.g., UMAP, t-SNE).
+- Visually track specific cells across different analysis results.
+- Specify cells for mapping based on metadata (e.g., `orig.ident` or `seurat_clusters`).
+- Customizable color and order of cell4link levels in plots.
+- Save plots in various formats, including PDF, PNG, JPEG, and more.
+
 ### Example Workflow
 This example demonstrates how to use the BatchLinkPlot function to map cells between two Seurat objects with different dimensionality reduction results.
 
@@ -40,7 +41,7 @@ Step 1: Prepare Seurat Objects
 # Suppose you have two Seurat objects that contain common target cells and have undergone dimensional reduction. (e.g., seurat.obj1 and seurat.obj2)
 ```
 Step 2: Map Cells Between Dimensionality Reductions
-Use the BatchLinkPlot function to map cells between the two Seurat objects. Customize the color palette, cluster order, and output format as needed.
+Use the BatchLinkPlot function to map cells between the two Seurat objects. Customize the color palette, cell4link levels order, and output format as needed.
 ```r
 # choose cells for plot
 seurat.obj1@meta.data$cell4link = seurat.obj1@meta.data$cluster
@@ -49,8 +50,8 @@ seurat.obj1@meta.data$cell4link = seurat.obj1@meta.data$cluster
 mapped_plots <- BatchLinkPlot(
   seurat.obj1 = seurat.obj1,
   seurat.obj2 = seurat.obj2,
-  cell4link.order = c("Cluster1", "Cluster2", "Cluster3"),  # Specify the order of clusters
-  cell4link.color = c("#BC3C29", "#A1433D", "#864B51"),     # Customize the colors of clusters for linking
+  cell4link.order = c("level1", "level2", "level3"),  # Specify the order of cell4link levels
+  cell4link.color = c("#BC3C29", "#A1433D", "#864B51"),     # Customize the colors of cell4link levels for linking
   cellnot4link.color = "#DCDCDC",                           # Customize the colors of other cells (not for linking)
   save.format = "pdf"                                       # Save plots as PDF files
 )
@@ -59,21 +60,21 @@ Step 3: Plot Saving
 The BatchLinkPlot function will save the generated plots to your working directory in the specified format (e.g., PDF). You can also access individual plots in the mapped_plots list for further customization or visualization.
 ```r
 mapped_plots
-# $`Cluster1`
+# $`level1`
 
-# $`Cluster2`
+# $`level2`
 
-# $`Cluster3`
+# $`level3`
 
-class(mapped_plots$`Cluster1`)
+class(mapped_plots$`level1`)
 # [1] "gg"     "ggplot"
 ```
 
-## Parameters
+### Parameters
  - seurat.obj1: First Seurat object, typically with an initial dimensionality reduction.
  - seurat.obj2: Second Seurat object with an alternative dimensionality reduction.
- - cell4link.order: Order of clusters to be displayed in the plot.
- - cell4link.color: Color palette for clusters, specified as a vector of color codes ***(A default palette of 50 colors is provided)***.
+ - cell4link.order: Order of cell4link levels to be displayed in the plot.
+ - cell4link.color: Color palette for cell4link levels, specified as a vector of color codes ***(A default palette of 50 colors is provided)***.
  - cellnot4link.color: Color of other cells ***(Default: #DCDCDC)***.
  - line.type: Type of lines for linking cells (refer to geom_line in ggplot2) ***(Default: solid)***.
  - line.color: Color of lines for linking cells (refer to geom_line in ggplot2) ***(Default: #A9A9A9)***.
@@ -83,9 +84,60 @@ class(mapped_plots$`Cluster1`)
  - dim1: the name of Dimension 1 in the dimensional reduction method (usually does not need to be specified)
  - dim2: the name of Dimension 2 in the dimensional reduction method (usually does not need to be specified)
 
-## Notes
+### Notes
  - Ensure the cells used for plotting are in the intersection of both Seurat objects, with consistent barcodes across objects.
  - Adjust cell4link.order and cell4link.color to customize the plot order and color scheme.
+
+## ***OverallProcrustesPlot*** function
+### Features
+- Map cells between various dimensionality reduction plots (e.g., UMAP, t-SNE).
+- Visually track specific cells across different analysis results.
+- Calculation of sum of squared deviations (M2 statistic) for all cells.
+- Save plots as PDF.
+
+### Example Workflow
+```r
+# choose cells for plot
+seurat.obj1@meta.data$cell4link = seurat.obj1@meta.data$cluster
+
+# Map all cells between the two Seurat objects (from seurat.obj1 to seurat.obj2) and execute Procrustes analysis
+OverallProcrustesPlot(
+  seurat.obj1 = seurat.obj1,
+  seurat.obj2 = seurat.obj2,
+  DR.method = "umap"
+)
+```
+
+### Parameters
+ - seurat.obj1: First Seurat object, typically with an initial dimensionality reduction.
+ - seurat.obj2: Second Seurat object with an alternative dimensionality reduction.
+ - DR.method: specify a common dimensional reduction method for two Seurat objects (e.g., umap, tsne, pca) ***(Default: umap)***.
+
+## ***BatchProcrustesPlot*** function
+### Features
+- Map cells between various dimensionality reduction plots (e.g., UMAP, t-SNE).
+- Visually track specific cells across different analysis results.
+- Specify cells for mapping based on metadata (e.g., `orig.ident` or `seurat_clusters`).
+- Batch calculation of sum of squared deviations (M2 statistic) for each cell4link level.
+- Save plots as PDF.
+
+### Example Workflow
+```r
+# choose cells for plot
+seurat.obj1@meta.data$cell4link = seurat.obj1@meta.data$cluster
+
+# Map all cell4link levels between the two Seurat objects (from seurat.obj1 to seurat.obj2) and execute Procrustes analysis
+BatchProcrustesPlot(
+  seurat.obj1 = seurat.obj1,
+  seurat.obj2 = seurat.obj2,
+  DR.method = "umap"
+)
+```
+
+### Parameters
+ - seurat.obj1: First Seurat object, typically with an initial dimensionality reduction.
+ - seurat.obj2: Second Seurat object with an alternative dimensionality reduction.
+ - DR.method: specify a common dimensional reduction method for two Seurat objects (e.g., umap, tsne, pca) ***(Default: umap)***.
 
 # License
 This package is licensed under the MIT License. See the LICENSE file for more details.
